@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+twilio
+google-generativeai
+google-cloud-firestore
+google-auth
+google-api-python-client
+python-dotenv
