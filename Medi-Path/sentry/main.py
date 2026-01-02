@@ -5,6 +5,7 @@ from google.cloud import firestore
 import os
 from triage import analyze_patient_input
 from concierge import book_appointment
+from reminders import process_all_reminders
 
 app = FastAPI()
 db = firestore.Client(project=os.getenv("FIRESTORE_PROJECT_ID"))
@@ -63,6 +64,27 @@ async def whatsapp_webhook(From: str = Form(...), Body: str = Form(""), MediaUrl
     response = MessagingResponse()
     response.message(ai_result["response_to_patient"])
     return Response(content=str(response), media_type="application/xml")
+
+
+@app.post("/send-reminders")
+async def send_reminders():
+    """
+    Endpoint triggered by Cloud Scheduler to send medication reminders.
+    Runs hourly and sends reminders based on each patient's medication schedule.
+    """
+    try:
+        sent_count = process_all_reminders(db)
+        return {"status": "success", "reminders_sent": sent_count}
+    except Exception as e:
+        print(f"Error processing reminders: {e}")
+        return {"status": "error", "message": str(e)}
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Cloud Run."""
+    return {"status": "healthy"}
+
 
 if __name__ == "__main__":
     import uvicorn

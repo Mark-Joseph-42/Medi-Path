@@ -24,11 +24,19 @@ def extract_recovery_plan(pdf_file):
     Target Schema:
     {
       "patient_meta": { "name": "string", "id": "string", "phone": "E.164_string" },
-      "medications": [ { "drug": "string", "dose": "string", "freq": "string" } ],
+      "medications": [ 
+        { 
+          "drug": "string", 
+          "dose": "string", 
+          "freq": "string (e.g., 'once daily', 'twice daily', 'morning', 'evening', 'with meals')",
+          "instructions": "string (any special instructions)"
+        } 
+      ],
       "red_flags": [ "string", "string" ],
       "follow_up": { "date": "ISO8601_string", "provider": "string" }
     }
 
+    Important: For medications, extract the frequency as precisely as possible (e.g., "twice daily", "every 8 hours", "morning and evening").
     Return the output as a valid JSON object.
     """
 
