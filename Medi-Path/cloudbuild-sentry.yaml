@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/medi-path/sentry:$COMMIT_SHA', './sentry']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/medi-path/sentry:$COMMIT_SHA']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'sentry'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/medi-path/sentry:$COMMIT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--set-secrets=GOOGLE_API_KEY=GOOGLE_API_KEY:latest,FIRESTORE_PROJECT_ID=FIRESTORE_PROJECT_ID:latest,CALENDAR_ID=CALENDAR_ID:latest'

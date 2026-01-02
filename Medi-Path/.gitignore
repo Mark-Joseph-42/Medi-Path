@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+*.json
+!requirements.txt
+!parser.py
+!triage.py
+!concierge.py
+!app.py
+!main.py
+!Dockerfile

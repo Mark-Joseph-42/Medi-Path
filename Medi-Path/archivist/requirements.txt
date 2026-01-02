@@ -1,0 +1,5 @@
+streamlit
+google-genai>=1.47.0
+google-cloud-firestore
+pymupdf
+python-dotenv

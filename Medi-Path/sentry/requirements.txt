@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+twilio
+google-genai>=1.47.0
+google-cloud-firestore
+google-auth
+google-api-python-client
+python-dotenv
+requests
+python-multipart
